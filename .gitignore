@@ -1,5 +1,5 @@
 venv/
 static/images/
 *.db
-__pycache__
-.idea
+__pycache__/
+.idea/
