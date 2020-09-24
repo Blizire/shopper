@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}admin - shopper{% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/admin.css') }}">
+    <script src="{{ url_for('static', filename='javascript/admin.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h1>Add Product</h1>
+    <form action="/admin/product-upload" method="POST" enctype="multipart/form-data">
+        <input type="text" name="product_name">
+        <input type="text" name="product_price">
+        <input type="file" name="file">
+        <input type="submit">
+    </form>
+
+    <h1>Products :</h1>
+    <div id="products">
+        {% for product in products %}
+            <div class="product">
+                <h3>{{ product[1] }}</h3>
+                <h3>{{ product[2] }}</h3>
+                <img src="{{ url_for('static', filename='images/'+product[3]) }}">
+                <button onclick="delete_product({{ product[0] }})">delete</button>
+                <button onclick="edit_product({{ product[0] }})">edit</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h1>Orders :</h1>
+    <div id="orders">
+
+    </div>
+{% endblock %}
