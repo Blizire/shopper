@@ -40,6 +40,13 @@ def get_products():
     save(conn)
     return products
 
+def get_product_by_id(product_id):
+    conn, cursor = connect()
+    sql = """SELECT * FROM inventory WHERE id=?"""
+    cursor.execute(sql, (product_id,))
+    product = cursor.fetchone()
+    save(conn)
+    return product
 
 def delete_product(product_id):
     conn, cursor = connect()

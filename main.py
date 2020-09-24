@@ -81,7 +81,14 @@ def product_upload():
 @app.route("/admin/delete/<int:product_id>", methods=["POST"])
 def admin_delete(product_id):
     # removes the product from the listing
+    product = database.get_product_by_id(product_id)
+    product_imagename = product[3]
+    abs_image_dir_path = os.path.join(os.getcwd(), "static/images")
+    abs_image_path = os.path.join(abs_image_dir_path, product_imagename)
+
+    os.remove(abs_image_path)
     database.delete_product(product_id)
+
     # TODO write function to also delate the image saved on server
     return redirect("/admin")
 
