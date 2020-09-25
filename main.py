@@ -88,12 +88,46 @@ def admin_delete(product_id):
 
     os.remove(abs_image_path)
     database.delete_product(product_id)
-
-    # TODO write function to also delate the image saved on server
     return redirect("/admin")
 
+@app.route("/admin/update/<int:product_id>", methods=["POST"])
+def admin_update_product(product_id):
+    # TODO : finish implementing JS function to actually POST to this route
+    #        test routing function to see what happens when putting in same data
+    #        or a single parameter.
+
+    # getting the original product data that will be edited
+    product = database.get_product_by_id(product_id)
+    product_name = product[1]
+    product_price = product[2]
+    product_image = product[3]
+
+    # get data submitted from the edit form
+    new_product_name = request.form["product_name"]
+    new_product_price = request.form["product_price"]
+    new_product_image = request.files["file"]
+    filename = secure_filename(file.filename)
+
+    # ensure no empty fields were put in
+    if new_product_name == "":
+        new_product_name = product_name
+    if new_product_price == "":
+        new_product_price = product_price
+    if new_product_image == "" or new_product_image == product_image:
+        filename = product_image
+    else:
+        # delete old picture since its attempted to be updated
+        abs_image_dir_path = os.path.join(os.getcwd(), "static/images")
+        abs_image_path = os.path.join(abs_image_dir_path, product_image)
+        os.remove(abs_image_path)
+        new_product_image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+
+    database.update_product(product_id, new_product_name, new_product_price, filename)
+    flash("successfully updated a product!")
+    return redirect("/admin")
 
 if __name__ == "__main__":
     app.config["UPLOAD_FOLDER"] = config.upload_folder
     app.config["SECRET_KEY"] = os.urandom(24)
     app.run(debug=True)
+

@@ -7,6 +7,13 @@
 {% endblock %}
 
 {% block body %}
+    <form id="product_update_form" action="" method="POST" enctype="multipart/form-data" data-id="None">
+            <input type="text" name="product_name">
+            <input type="text" name="product_price">
+            <input type="file" name="file">
+            <input type="submit">
+    </form>
+
     <h1>Add Product</h1>
     <form action="/admin/product-upload" method="POST" enctype="multipart/form-data">
         <input type="text" name="product_name">
