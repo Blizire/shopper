@@ -3,3 +3,4 @@ static/images/*
 *.db
 __pycache__/
 .idea/
+shop.db-journal

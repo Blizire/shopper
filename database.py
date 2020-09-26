@@ -58,7 +58,7 @@ def delete_product(product_id):
 def update_product(product_id, item_name, item_price, item_pic):
     conn, cursor = connect()
     sql = """UPDATE inventory SET item_name=?, item_price=?, item_pic=? WHERE id=?"""
-    cursor.execute(sql, (item_name, item_price, item_pic))
+    cursor.execute(sql, (item_name, item_price, item_pic, product_id))
     save(conn)
 
 if __name__ == "__main__":

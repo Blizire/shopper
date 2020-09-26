@@ -7,11 +7,11 @@
 {% endblock %}
 
 {% block body %}
-    <form id="product_update_form" action="" method="POST" enctype="multipart/form-data" data-id="None">
-            <input type="text" name="product_name">
-            <input type="text" name="product_price">
-            <input type="file" name="file">
-            <input type="submit">
+    <form id="product_update_form" action="" method="POST" enctype="multipart/form-data">
+            <input id="update_name" type="text" name="product_name">
+            <input id="update_price" type="text" name="product_price">
+            <input id="update_file" type="file" name="file">
+            <input id="update_submit" type="submit">
     </form>
 
     <h1>Add Product</h1>
@@ -30,7 +30,7 @@
                 <h3>{{ product[2] }}</h3>
                 <img src="{{ url_for('static', filename='images/'+product[3]) }}">
                 <button onclick="delete_product({{ product[0] }})">delete</button>
-                <button onclick="edit_product({{ product[0] }})">edit</button>
+                <button onclick="edit_product('{{ product[0] }}', '{{ product[1] }}', '{{ product[2]}}')">edit</button>
             </div>
         {% endfor %}
     </div>

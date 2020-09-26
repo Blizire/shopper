@@ -106,23 +106,25 @@ def admin_update_product(product_id):
     new_product_name = request.form["product_name"]
     new_product_price = request.form["product_price"]
     new_product_image = request.files["file"]
-    filename = secure_filename(file.filename)
+    new_filename = secure_filename(new_product_image.filename)
 
     # ensure no empty fields were put in
     if new_product_name == "":
         new_product_name = product_name
     if new_product_price == "":
         new_product_price = product_price
-    if new_product_image == "" or new_product_image == product_image:
-        filename = product_image
+    if new_filename == "" or new_filename == product_image:
+        new_filename = product_image
     else:
         # delete old picture since its attempted to be updated
-        abs_image_dir_path = os.path.join(os.getcwd(), "static/images")
-        abs_image_path = os.path.join(abs_image_dir_path, product_image)
-        os.remove(abs_image_path)
-        new_product_image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+        abs_image_path = os.path.join(app.config["UPLOAD_FOLDER"], product_image)
+        try:
+            os.remove(abs_image_path)
+        except FileNotFoundError:
+            print("Warning could not find filepath to deleted.")
+        new_product_image.save(os.path.join(app.config["UPLOAD_FOLDER"], new_filename))
 
-    database.update_product(product_id, new_product_name, new_product_price, filename)
+    database.update_product(product_id, new_product_name, new_product_price, new_filename)
     flash("successfully updated a product!")
     return redirect("/admin")
 

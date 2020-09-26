@@ -6,15 +6,12 @@ function delete_product(product_id){
     element.parentElement.remove()
 }
 
-function edit_product(product_id){
+function edit_product(product_id, current_name, current_price){
     // update editing form with product data
-    form = document.querySelector("#product_update_form")
+    document.querySelector("#update_name").value = current_name;
+    document.querySelector("#update_price").value = current_price;
+    document.querySelector("#product_update_form").action = "/admin/update/" + product_id;
+    // expose editing form
 
-    //expose editing form
-
-
-    // send update post request
-
-
-    // close editing form and clear data
+    // hide editing form and clear data
 }
